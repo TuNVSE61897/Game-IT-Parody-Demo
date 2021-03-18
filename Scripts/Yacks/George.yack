@@ -1,0 +1,24 @@
+// ----------------------------------------------------------------------------
+//
+//  Copyright (c) 2020 Terrible Toybox, Inc. All rights reserved.
+//  Licensed for personal use only: https://github.com/grumpygamer/DeloresDev
+//
+// ----------------------------------------------------------------------------
+
+// IT-PARODY-DEMO START
+
+=== init ===
+-> exit
+
+== start ===
+
+	delores: SAY(20027,"Hey, are you Georgie-the-kid?")
+	postalworker: SAY(20028,"Well, do I look like one?")
+	postalworker: SAY(20029,"I know I'm a bit childish sometimes but to call me a kid is too rude...")
+
+-> done
+
+=== done ===
+-> exit
+
+// IT-PARODY-DEMO END

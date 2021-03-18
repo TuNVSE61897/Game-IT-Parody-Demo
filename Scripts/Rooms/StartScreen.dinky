@@ -1,0 +1,115 @@
+// ----------------------------------------------------------------------------
+//
+//  Copyright (c) 2020 Terrible Toybox, Inc. All rights reserved.
+//  Licensed for personal use only: https://github.com/grumpygamer/DeloresDev
+//
+// ----------------------------------------------------------------------------
+
+// IT-PARODY-DEMO START
+
+script doOpening() {
+	ROOT(music_tid) = stopSound(ROOT(music_tid))
+	inputState(INPUT_ON)
+	if (!SETTING(seen_opening)) {
+		cutsceneCanOverride(NO)
+	}
+	cutscene(@{
+
+		overlayColorTo(COLOR_BLACK, 2.0)
+		breaktime(2.0)
+		breakwhilerunning(TitleCards.showTitles())
+		startMusicPool("town")
+		actorAt(delores, AStreet, AStreet.startSpot)
+		cameraFollow(delores)
+		startYack(delores, sandy, "Main:start_first_time")
+		breakwhileyacking()
+		pickupObject(Inventory.assignment, delores)
+		expandInventory(YES)
+		setuserpref("seen_opening", YES)
+		showGearIcon(YES)
+	}, @{
+		overlayColor(COLOR_NONE)
+		cameraFollow(delores)
+		pickupObject(Inventory.assignment, ransome)
+		if (DEBUG(skip_intro)) {
+			pickupObject(Inventory.camera, YES)
+		}
+		expandInventory(YES)
+		actorTurnTo(delores, DIR_FRONT)
+		showGearIcon(YES)
+	})
+}
+
+// IT-PARODY-DEMO END
+
+DEFINE_ROOM("StartScreen", {
+
+	music_sid = 0
+	continue_ok = NO
+
+	// --------------------------------------------------------------------------------------------
+	// General room functions
+
+	script showRefCard() {
+		breaktime(1.0)
+		ROOT(music_tid) = playSound(SOUNDID(startscreen_music))
+		overlayColor(COLOR_BLACK)
+		objectState(refcard, "show")
+		overlayColorTo(COLOR_NONE, 2.0)
+		if (!SETTING(seen_opening)) {
+			breaktime(5.0)
+		}
+		continue_ok = YES
+		do {
+			objectState(clickToContinue, "show")
+			breaktime(1.0)
+			objectState(clickToContinue, "default")
+			breaktime(1.0)
+		}
+	}
+
+	function start() {
+		stopSound(ROOT(music_tid))
+		enterRoom(StartScreen)
+		startthread(showRefCard)
+	}
+
+	// --------------------------------------------------------------------------------------------
+	// Enter/Exit code
+
+	enter = function(from_door=null) {
+		showGearIcon(NO)
+	}
+
+	exit = function() {
+		ROOT(music_tid) = stopSound(ROOT(music_tid))
+	}
+
+	function clickedAt(pos) {
+		if (continue_ok && !optionsShowing()) {
+			startglobalthread(doOpening)
+		}
+		return HANDLED
+	}
+
+	function keyDown(key, flags) {
+		if (key == 'o') {
+			openOptions(NO)
+			return HANDLED
+		} else
+		if (key == KEY_ESC) {
+			if (continue_ok && !optionsShowing()) {
+				startglobalthread(doOpening)
+			}
+			return HANDLED
+		}
+	}
+
+	// --------------------------------------------------------------------------------------------
+	// Objects
+
+	refcard = {}
+	clickToContinue = {}
+
+// NEW_OBJECT_HERE
+})

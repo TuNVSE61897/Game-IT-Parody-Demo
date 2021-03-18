@@ -1,0 +1,36 @@
+// ----------------------------------------------------------------------------
+//
+//  Copyright (c) 2020 Terrible Toybox, Inc. All rights reserved.
+//  Licensed for personal use only: https://github.com/grumpygamer/DeloresDev
+//
+// ----------------------------------------------------------------------------
+
+// IT-PARODY-DEMO START
+
+=== init ===
+-> exit
+
+=== start ===
+delores: SAY(20035,"Hello sir.")
+willie: SAY(20036,"Hello. I'm Willie. Are you a newcomer? I have never seen you around.")
+
+1 SAY(20037,"Ah yes. I'm looking for some kids.") -> kid
+2 SAY(12317,"How's business?") -> late
+
+=== late ===
+
+willie: SAY(12318,"Business is booming.")
+willie: SAY(12319,"Sorry I can't talk, I've got to get home.")
+willie: SAY(12320,"It's my night to cook dinner.")
+
+-> done
+
+=== kid ===
+
+willie: SAY(20038,"Oh no. Is your kid missing? I hope you find them soon.")
+willie: SAY(12319,"Sorry I can't talk, I've got to get home.")
+
+=== done ===
+-> exit
+
+// IT-PARODY-DEMO END

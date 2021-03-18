@@ -1,0 +1,26 @@
+// ----------------------------------------------------------------------------
+//
+//  Copyright (c) 2020 Terrible Toybox, Inc. All rights reserved.
+//  Licensed for personal use only: https://github.com/grumpygamer/DeloresDev
+//
+// ----------------------------------------------------------------------------
+
+// IT-PARODY-DEMO START
+
+=== init ===
+-> exit
+
+== start_first_time ===
+
+{ cameraFollow(delores)
+  cameraZoomFromTo(10.0, 1.0, 1.25) }
+
+pause 1.50
+	delores: SAY(20000,"I'm so excited to be back to Derry!")
+	delores: SAY(20001,"I did my waiting. 27 years. In the sewer.")
+	delores: SAY(20002,"I'm so hungry. Let's go and haunt some kids!")
+
+pause 0.2
+-> exit
+
+// IT-PARODY-DEMO END

@@ -1,0 +1,183 @@
+// ----------------------------------------------------------------------------
+//
+//  Copyright (c) 2020 Terrible Toybox, Inc. All rights reserved.
+//  Licensed for personal use only: https://github.com/grumpygamer/DeloresDev
+//
+// ----------------------------------------------------------------------------
+
+// IT-PARODY-DEMO START
+
+local note_text = [ TEXT(20004,"Welcome back to the Clown Union.⏎")
+			        TEXT(20005,"Here we have several tasks for our members to make the world great again.⏎")
+			        TEXT(20006,"Please kindly complete the below tasks.⏎⏎") ]
+
+local note_text2 = TEXT(20007,"⏎P.S: Please inform us when you're done. We need more members to help us sell the burgers.")
+
+const STORY_VERSION = 4
+
+
+local story_master_list = [
+	"Find some kids and bring them into the sewer"
+]
+
+local story_data = {
+	"Find some kids and bring them into the sewer": 	TEXT(20003,"Find some kids and bring them into the sewer")
+}
+
+local completed_stories = []	// All stories that have been completed over time.
+local active_stories = []		// Stories player is currently working on
+local active_photos_taken = []	// Photos of active stories taken
+
+
+DEFINE_ROOM("Note", {
+	no_jump = YES
+	closeup = YES
+
+	text_image = null
+
+	// ------------------------------------------------------------------------
+	// General room functions
+
+	function createStories() {
+
+		local possible_stories = []
+		foreach (local key in story_master_list) {
+			arrayappend(possible_stories, key)
+		}
+
+		completed_stories = getprivatepref("completed_stories")
+		if (completed_stories == null) {
+			completed_stories = []
+		}
+
+		// Find stories that haven't been completed.
+		active_stories = arrayfilter(possible_stories, @(index,story) {
+			return (story !in completed_stories) ? YES : NO
+		})
+
+		if (DEBUG(force_story)) {
+			if (DEBUG(force_story) !in story_master_list) {
+				error("forceStory: '",DEBUG(force_story),"' not a valid story.")
+			}
+			arrayappend(active_stories, DEBUG(force_story))
+		}
+	}
+
+// IT-PARODY-DEMO END
+
+	function add_story(tag, text) {
+		text = "  • "+TR(text)+"."
+		if (isStoryPhotographed(tag)) {
+			text = "#{008000}"+text+" ✓#{}"
+		}
+		return text+"⏎"
+	}
+
+	function buildText() {
+		local text = ""
+		foreach (local line in note_text) { text += TR(line) }
+		foreach(local story in active_stories) {
+			if (story_data?[story]) text += add_story(story, story_data[story])
+			//if (story_data?[story]) text += add_story("Hello", "Test")
+		}
+		text += TR(note_text2)
+		text_image = createTextImage(NOTE_FONT, text, ALIGN_LEFT|800)
+		imageAt(text_image, point(290,580))
+		imageColor(text_image, COLOR_BLACK)
+		imageRotate(text_image, -3.5)
+		imageFilter(text_image, 1)
+	}
+
+	function isDone() {
+	if (DEBUG(watch_ending)) return YES
+		return (sizeof(active_photos_taken) >= 5) ? YES : NO
+	}
+
+	// Total stories completed over several play sessions.
+	function totalCompletedCount() {
+		return sizeof(completed_stories)
+	}
+	function totalTasksCount() {
+		return sizeof(story_master_list)
+	}
+	// Including the ones in inventory, how many are left to turn in.
+	function totalLeftToTurnin() {
+		if (DEBUG(watch_ending)) return 0
+		local count = sizeof(story_master_list)-sizeof(completed_stories)
+		if (count < 0) count = 0
+		return count
+	}
+	function isActiveStory(story_list) {
+		foreach (local story in strsplit(story_list, ",")) {
+			if (story in active_stories) return YES
+		}
+		return NO
+	}
+	function isStoryPhotographed(story) {
+		return (story in active_photos_taken)
+	}
+	function isStoryIn(story, story_list) {
+		foreach (local s in strsplit(story_list, ",")) {
+			if (story == s) return YES
+		}
+		return NO
+	}
+
+	// Every photo taken calls this function for each of it's possible stories.
+	function takePhoto(for_story) {
+		if (for_story in active_stories) {
+			arrayfindremove(active_photos_taken, for_story)
+			arrayappend(active_photos_taken, for_story)
+			return YES
+		}
+		return NO
+	}
+
+	// Called when you turn in your assignment to Natalie.  Only place data is saved.
+	function saveGame() {
+		playSound(SOUNDID(floppy_short))
+		foreach(local story in active_photos_taken) {
+			arrayfindremove(completed_stories, story)
+			arrayappend(completed_stories, story)
+		}
+		setprivatepref("completed_stories", completed_stories)
+		if (Bathroom.has_power) {
+			setprivatepref("bathroom_power", YES)
+		}
+		syncprefs()
+	}
+
+	function debugCompleteAllAssignments() {
+		foreach(local story in active_stories) {
+			takePhoto(story)
+		}
+		saveGame()
+	}
+
+	// ------------------------------------------------------------------------
+	// Enter/Exit code
+
+	enter = function(from_door=null) {
+		buildText()
+		createExitButton(@{
+			cameraFollow(selectedActor)
+		})
+	}
+
+	exit = function() {
+		deleteImage(text_image)
+		deleteExitButton()
+	}
+
+	keyDown = function(key, flags) {
+		if (IS_BACK_BUTTON(key)) {
+			cameraFollow(selectedActor)
+		}
+		return HANDLED
+	}
+
+	// ------------------------------------------------------------------------
+	// Objects
+
+// NEW_OBJECT_HERE
+})

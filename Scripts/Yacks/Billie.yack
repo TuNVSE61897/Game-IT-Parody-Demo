@@ -1,0 +1,41 @@
+// ----------------------------------------------------------------------------
+//
+//  Copyright (c) 2020 Terrible Toybox, Inc. All rights reserved.
+//  Licensed for personal use only: https://github.com/grumpygamer/DeloresDev
+//
+// ----------------------------------------------------------------------------
+
+// IT-PARODY-DEMO START
+
+=== init ===
+-> exit
+
+== start ===
+
+if [once]
+	delores: SAY(20016,"Hey, are you Billie, Georgie's brother?")
+	chuckie: SAY(20017,"Yes. Do I know you?")
+	delores: SAY(20018,"Do you want to have some fun in the sewer with me?")
+	chuckie: SAY(20019,"That sounds creepy. Mommy said that I couldn't talk to stranger.")
+	chuckie: SAY(20020,"Unless you bring me something to prove that you are nice.")
+	delores: SAY(20021,"Geez. Are all kids nowaday demanding like this?")
+endif
+
+== main ==
+
+chuckie: SAY(20022,"Bring me a toy or candy, then we can talk.")
+-> done
+
+=== end_game ===
+
+chuckie: SAY(11023,"Thanks!")
+delores: SAY(20023,"Can you go with me now? Trust me you'll float.")
+chuckie: SAY(20024,"That sounds fun! Let's go!")
+
+{ startEnding() }
+-> exit
+
+=== done ===
+-> exit
+
+// IT-PARODY-DEMO END

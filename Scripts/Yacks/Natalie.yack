@@ -1,0 +1,37 @@
+// ----------------------------------------------------------------------------
+//
+//  Copyright (c) 2020 Terrible Toybox, Inc. All rights reserved.
+//  Licensed for personal use only: https://github.com/grumpygamer/DeloresDev
+//
+// ----------------------------------------------------------------------------
+
+// IT-PARODY-DEMO START
+
+=== init ===
+-> exit
+
+== main ==
+1 SAY(20008,"Hello. Is there any kids in this town?") -> town
+2 SAY(20009,"Hello lady. Do you have any kids?") -> kid
+3 SAY(20010,"Do you want to have some fun in the sewer with me?") -> sewer
+4 SAY(12211,"Never mind... bye.") -> done
+
+=== town ===
+natalie: SAY(20011,"Billie and his brother, Georgie, live at the end of this street.")
+delores: SAY(20012,"Ahhh I seeeee. Thanks!")
+-> main
+
+=== kid ===
+natalie: SAY(20013,"Excuse me? That's a rude question to ask a young lady like me, you know?")
+-> main
+
+=== sewer ===
+natalie: SAY(20014,"Well that's a very weird pick up line but see you later after 10pm.")
+-> main
+
+// ------------------------------------------------------------------------------------------------
+=== done ===
+natalie: SAY(20015,"If you don't have any business, please leave. I'm very busy.")
+-> exit
+
+// IT-PARODY-DEMO END
