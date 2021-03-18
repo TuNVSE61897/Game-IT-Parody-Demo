@@ -15,7 +15,7 @@ position at Terrible Toybox.
 I don’t own the sounds, artworks, engine, characters or anything except the idea and 
 20 rolls of paper which I hoarded since last lockdown.
 
-I've made this demo within 3 days including time to learn the language and the project structure
+I've made this demo within 2 days including time to learn the language and the project structure
 so to avoid crashing the game, I left most of the demo as it was and just added or edited what 
 I want. To look for where I edited, you can search keyword "IT-PARODY-DEMO" in the whole project.
 
