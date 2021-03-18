@@ -1,4 +1,10 @@
 Technical stacks and tools: Dinky language, wimpy, Sublime text, Texture Packer, Photoshop
+Please use the engine here to run the game: https://thimbleweedpark.com/deloresdev/
+
+If you are lazy and don't want to download the source code and set up, 
+you can watch a video of the gameplay here: https://www.youtube.com/watch?v=vfs7Re2xYfo
+
+=========================
 
 Hello,
 
