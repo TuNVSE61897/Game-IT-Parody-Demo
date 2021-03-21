@@ -30,7 +30,7 @@ script doOpening() {
 	}, @{
 		overlayColor(COLOR_NONE)
 		cameraFollow(delores)
-		pickupObject(Inventory.assignment, ransome)
+		pickupObject(Inventory.assignment, delores)
 		if (DEBUG(skip_intro)) {
 			pickupObject(Inventory.camera, YES)
 		}
